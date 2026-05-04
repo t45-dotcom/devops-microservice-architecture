@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: build-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: build-service
+  template:
+    metadata:
+      labels:
+        app: build-service
+    spec:
+      containers:
+      - name: build-service
+        image: build-service:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: build-service
+spec:
+  selector:
+    app: build-service
+  ports:
+    - port: 3001
+      targetPort: 3001

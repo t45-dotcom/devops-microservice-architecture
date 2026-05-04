@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  orchestrator:
+    build: ./orchestrator-service
+    ports:
+      - "3000:3000"
+    depends_on:
+      - rabbitmq
+
+  build:
+    build: ./build-service
+    depends_on:
+      - rabbitmq
+
+  test:
+    build: ./test-service
+    depends_on:
+      - rabbitmq
+
+  deploy:
+    build: ./deploy-service
+    depends_on:
+      - rabbitmq
+
+  monitor:
+    build: ./monitor-service
+    depends_on:
+      - rabbitmq

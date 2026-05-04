@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deploy-service
+  template:
+    metadata:
+      labels:
+        app: deploy-service
+    spec:
+      containers:
+      - name: deploy-service
+        image: deploy-service:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploy-service
+spec:
+  selector:
+    app: deploy-service
+  ports:
+    - port: 3003
+      targetPort: 3003
